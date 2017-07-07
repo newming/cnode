@@ -9,3 +9,34 @@
 .header h1{
 	color: #fff;
 }
+.topics{
+	padding: 0 10px;
+}
+.topic{
+	display: flex;
+	padding: 5px 0;
+}
+.topic>img{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 2px solid #eee;
+	margin-right: 10px;
+	flex-shrink: 0;
+}
+.topic>div{
+	flex-grow: 1;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.topic h3{
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.topic .tab{
+	background-color: #ffc107;
+	margin-right: 10px;
+	padding: 0 4px;
+	border-radius: 2px;
+	color: #fff;
+}
