@@ -2,6 +2,8 @@ import React from 'react'
 import { Button, Modal, Input, message, Menu, Dropdown, Avatar } from 'antd'
 import axios from 'axios'
 
+import {Link} from 'react-router-dom'
+
 import {url} from '../config'
 
 class Header extends React.Component{
@@ -60,7 +62,7 @@ class Header extends React.Component{
 		)
 		return(
 			<header className='header'>
-				<h1>cnode</h1>
+				<h1><Link to='/'>cnode</Link></h1>
 				{
 					isLogin ?
 					<Dropdown overlay={menu}>

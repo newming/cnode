@@ -1,5 +1,6 @@
 import React from 'react'
 import { Spin } from 'antd';
+import {Link} from 'react-router-dom'
 
 class ShowTopics extends React.Component{
 	render(){
@@ -18,7 +19,7 @@ class ShowTopics extends React.Component{
 						<div key={item.id} className='topic'>
 							<img src={item.author.avatar_url} alt="avatar"/>
 							<div>
-								<h3 title={item.title}>{item.title}</h3>
+								<h3 title={item.title}><Link to={`/topic/${item.id}`}>{item.title}</Link></h3>
 								<span className='tab'>{item.top?'置顶':item.good?'精华':tabs[item.tab]}</span>
 								<span>回复量：<strong>{item.reply_count}</strong></span>
 								&nbsp;&nbsp;
