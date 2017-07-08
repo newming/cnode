@@ -4,7 +4,7 @@
   "description": "webpack howto",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && ./node_modules/.bin/webpack --config webpack.prod.config.js",
+    "build": "./node_modules/.bin/webpack --config webpack.prod.config.js",
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.dev.config.js"
   },
   "author": "newming",
