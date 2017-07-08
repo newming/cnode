@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import Topic from './components/Topic'
+import Message from './components/Message'
 
 class App extends React.Component{
 	render(){
@@ -13,8 +14,11 @@ class App extends React.Component{
 				<div>
 					<Header />
 					
-					<Route path='/' exact component={Home} />
-					<Route path='/topic/:id' component={Topic} />
+					<div style={{minHeight: '300px'}}>
+						<Route path='/' exact component={Home} />
+						<Route path='/topic/:id' component={Topic} />
+						<Route path='/message' component={Message} />
+					</div>
 
 					<Footer />
 				</div>
