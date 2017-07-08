@@ -40,3 +40,39 @@
 	border-radius: 2px;
 	color: #fff;
 }
+
+/*返回顶部样式*/
+.ant-back-top {
+  right: 40px !important;
+}
+
+.topic-desc{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #777;
+	padding-bottom: 10px;
+	font-size: 18px;
+}
+/*文章样式*/
+.topic-wrap{
+	line-height: 1.7;
+}
+.topic-wrap img{
+	width: 100%;
+}
+.comments{
+	display: flex;
+}
+.comments>span{
+	flex-shrink: 0;
+	margin-right: 10px;
+}
+.comments-right{
+	flex-grow: 1;
+}
+.comments-header{
+	display: flex;
+	justify-content: space-between;
+}

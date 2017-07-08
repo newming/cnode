@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {url} from '../config'
-import { Tabs, message, Button } from 'antd';
+import { Tabs, message, Button, BackTop } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import ShowTopics from './ShowTopics'
@@ -68,6 +68,7 @@ class Home extends React.Component{
 			    </TabPane>
 			  </Tabs>
 				<Button type='primary' style={{width: '100%'}} onClick={this.loadMore.bind(this, tab)}>加载更多</Button>
+				<BackTop />
 			</div>
 		)
 	}
