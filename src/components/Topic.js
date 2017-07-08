@@ -50,6 +50,17 @@ class Topic extends React.Component{
 		// console.log(reply)
 		this.setState({visible: true, replyInfo: reply, reply: `@${reply.author.loginname} `})
 	}
+	handleLike(reply_id){
+		if (sessionStorage.accesstoken) {
+			var accesstoken = sessionStorage.accesstoken
+		}else{
+			alert('请先登录')
+			return
+		}
+		axios.post(`${url}/reply/${reply_id}/ups`, {accesstoken})
+			.then( res => this.getData() )
+			.catch( err => message.error('评论失败'))
+	}
 	render(){
 		let {data, comment, visible, reply, replyInfo} = this.state
 		// console.log(data)
@@ -62,7 +73,7 @@ class Topic extends React.Component{
 								<h1 style={{textAlign: 'center'}}>{data.title}</h1>
 								<div className='topic-desc'>
 									<Avatar src={data.author.avatar_url}/>
-									<span>回复量：{data.reply_count}</span>
+									<span>回复量：{data.reply_count}</span>&nbsp;&nbsp;
 									<span>阅读量：{data.visit_count}</span>
 								</div>
 								<div dangerouslySetInnerHTML={{__html: data.content}} className='topic-wrap'/>
@@ -80,7 +91,7 @@ class Topic extends React.Component{
 												<div className='comments-header'>
 													<span>{item.author.loginname}·{moment(item.create_at).fromNow()}</span>
 													<span>
-														<Icon type="like" />{item.ups.length}&nbsp;&nbsp;
+														<Icon type="like" onClick={this.handleLike.bind(this, item.id)}/>{item.ups.length}&nbsp;&nbsp;
 														<Icon type="message" onClick={this.showReply.bind(this, item)}/>
 													</span>
 												</div>
