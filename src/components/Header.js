@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button, Modal, Input, message, Menu, Dropdown, Avatar, Badge } from 'antd'
 import axios from 'axios'
-
+import {connect} from 'react-redux';
+import {login, logout} from '../store/action';
 import {Link} from 'react-router-dom'
 
 import {url} from '../config'
@@ -10,12 +11,10 @@ class Header extends React.Component{
 	constructor(){
 		super()
 		this.state={
-			isLogin: false,
 			visible: false,
 			confirmLoading: false,
 			input: '3f77acb1-d753-4393-b784-44913190e6a8',
-			user: null,
-			messageCount: null
+			messageCount: 0
 		}
 	}
 	handleOk(){
@@ -25,13 +24,11 @@ class Header extends React.Component{
 			.then(res => {
 				message.success('登录成功')
 				this.setState({
-					isLogin: true,
 					visible: false,
 					confirmLoading: false,
-					input: '',
-					user: res.data
+					input: ''
 				})
-				sessionStorage.accesstoken = accesstoken
+				this.props.dispatch(login(res.data, accesstoken))
 				this.getMessage(accesstoken)
 			})
 			.catch(err =>{
@@ -45,25 +42,28 @@ class Header extends React.Component{
 			.catch(err=> console.log('message 获取失败'))
 	}
 	handleLogout(){
-		this.setState({
-			isLogin: false,
-			user: null
-		})
-		sessionStorage.removeItem('accesstoken')
+		this.props.dispatch(logout())
 	}
 	render(){
-		let {isLogin, visible, input, confirmLoading, user, messageCount} = this.state
-		// console.log(user)
+		let {visible, input, confirmLoading, messageCount} = this.state
+		let {user, isLogin} = this.props.user;
+		// console.log(this.props);
 		const menu = !isLogin ? null : (
 		  <Menu>
 		    <Menu.Item>
 		      <h3>{user.loginname}</h3>
 		    </Menu.Item>
 		    <Menu.Item>
-		    	<Link to="/">个人中心</Link>
+		    	<Link to={`/user/${user.loginname}`}>个人中心</Link>
 		    </Menu.Item>
 		    <Menu.Item>
 		    	<Link to="/message">消息中心</Link>
+		    </Menu.Item>
+		    <Menu.Item>
+		    	<Link to="/collect">收藏中心</Link>
+		    </Menu.Item>
+		    <Menu.Item>
+		    	<Link to="/newtopic">发布话题</Link>
 		    </Menu.Item>
 		    <Menu.Item>
 		      <Button type="danger" onClick={this.handleLogout.bind(this)}>登出</Button>
@@ -72,7 +72,7 @@ class Header extends React.Component{
 		)
 		return(
 			<header className='header'>
-				<h1><Link to='/'>cnode</Link></h1>
+				<h1><Link to='/' style={{color: '#fff'}}>cnode</Link></h1>
 				{
 					isLogin ?
 					<Dropdown overlay={menu}>
@@ -100,4 +100,7 @@ class Header extends React.Component{
 		)
 	}
 }
-export default Header
+
+let getUser = ({user}) => ({user});
+
+export default connect(getUser)(Header)

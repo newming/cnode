@@ -1,9 +1,10 @@
 import React from 'react'
 import {url} from '../config'
 import axios from 'axios'
-import {message, Spin} from 'antd'
+import {message, Spin, Button} from 'antd'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
+import {connect} from 'react-redux';
 
 class Message extends React.Component{
 	constructor(){
@@ -12,11 +13,21 @@ class Message extends React.Component{
 			data: null
 		}
 	}
+	markAll(){
+		let accesstoken = this.props.user.accesstoken;
+		axios.post(`${url}/message/mark_all`, {accesstoken})
+			.then( res => console.log('标记全部为已读成功') )
+			.catch( err => console.log('标记全部为已读失败') )
+	}
 	componentDidMount(){
-		let accesstoken = sessionStorage.accesstoken;
+		// 只要打开就标记全部为已读，但是要在请求所有消息列表后
+		let accesstoken = this.props.user.accesstoken;
 		if (accesstoken) {
 			axios.get(`${url}/messages?accesstoken=${accesstoken}`)
-				.then(res => this.setState({data: res.data.data}))
+				.then(res => {
+					this.setState({data: res.data.data})
+					this.markAll()
+				})
 				.catch(err => message.error('数据请求失败'))
 		}else{
 			this.props.history.push('/')
@@ -24,7 +35,7 @@ class Message extends React.Component{
 	}
 	render(){
 		let {data} = this.state
-		console.log(data)
+		// console.log(this.props)
 		return(
 			<div style={{padding: '10px'}}>
 				{
@@ -64,4 +75,6 @@ class Message extends React.Component{
 	}
 }
 
-export default Message
+let getUser = ({user}) => ({user});
+
+export default connect(getUser)(Message)

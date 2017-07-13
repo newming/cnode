@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 
 class ShowTopics extends React.Component{
 	render(){
-		// console.log(this.props.data)
 		let {data} = this.props;
 		let tabs = {
 			ask: '问答',
@@ -17,7 +16,7 @@ class ShowTopics extends React.Component{
 					data.length===0? <div style={{textAlign: 'center'}}><Spin size="large" /></div> :
 					data.map(item=>(
 						<div key={item.id} className='topic'>
-							<img src={item.author.avatar_url} alt="avatar"/>
+							<Link to={`/user/${item.author.loginname}`}><img src={item.author.avatar_url} alt="avatar"/></Link>
 							<div>
 								<h3 title={item.title}><Link to={`/topic/${item.id}`}>{item.title}</Link></h3>
 								<span className='tab'>{item.top?'置顶':item.good?'精华':tabs[item.tab]}</span>

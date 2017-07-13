@@ -3,6 +3,8 @@ import axios from 'axios'
 import {url} from '../config'
 import { message, Card, BackTop, Avatar, Input, Button, Icon, Modal } from 'antd';
 import moment from 'moment';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class Topic extends React.Component{
 	constructor(){
@@ -12,7 +14,8 @@ class Topic extends React.Component{
 			comment: '',
 			reply:'',
 			visible: false,
-			replyInfo: null
+			replyInfo: null,
+			collect: false
 		}
 	}
 	getData(){
@@ -25,8 +28,8 @@ class Topic extends React.Component{
 		this.getData()
 	}
 	handleComment(type){
-		if (sessionStorage.accesstoken) {
-			var accesstoken = sessionStorage.accesstoken
+		if (this.props.user.accesstoken) {
+			var accesstoken = this.props.user.accesstoken
 		}else{
 			alert('请先登录')
 			return
@@ -51,8 +54,8 @@ class Topic extends React.Component{
 		this.setState({visible: true, replyInfo: reply, reply: `@${reply.author.loginname} `})
 	}
 	handleLike(reply_id){
-		if (sessionStorage.accesstoken) {
-			var accesstoken = sessionStorage.accesstoken
+		if (this.props.user.accesstoken) {
+			var accesstoken = this.props.user.accesstoken
 		}else{
 			alert('请先登录')
 			return
@@ -61,18 +64,35 @@ class Topic extends React.Component{
 			.then( res => this.getData() )
 			.catch( err => message.error('评论失败'))
 	}
+	handleCollect(){
+		let id = this.props.match.params.id;
+		if (this.props.user.accesstoken) {
+			var accesstoken = this.props.user.accesstoken
+		}else{
+			alert('请先登录')
+			return
+		}
+		axios.post(`${url}/topic_collect/collect`, {accesstoken, topic_id: id})
+			.then(res => {this.setState({collect: true});message.success('收藏成功')})
+			.catch(err => message.error('请求失败'))
+	}
 	render(){
-		let {data, comment, visible, reply, replyInfo} = this.state
+		let {data, comment, visible, reply, replyInfo, collect} = this.state
 		// console.log(data)
+		let tabs = {
+			ask: '问答',
+			job: '招聘',
+			share: '分享'
+		}
 		return(
 			<div style={{padding:'10px'}}>
-				<Card loading={!data}>
+				<Card loading={!data} title={data? `分类：${tabs[data.tab]}` : null} extra={this.props.user.isLogin?<Button type="primary" onClick={this.handleCollect.bind(this)}>{collect? '已收藏' : '收藏'}</Button>:null}>
 					{
 						data ? (
 							<div>
 								<h1 style={{textAlign: 'center'}}>{data.title}</h1>
 								<div className='topic-desc'>
-									<Avatar src={data.author.avatar_url}/>
+									<Link to={`/user/${data.author.loginname}`}><Avatar src={data.author.avatar_url}/></Link>
 									<span>回复量：{data.reply_count}</span>&nbsp;&nbsp;
 									<span>阅读量：{data.visit_count}</span>
 								</div>
@@ -86,12 +106,16 @@ class Topic extends React.Component{
 								{
 									data.replies.map(item=>(
 										<div className='comments' key={item.id}>
-											<Avatar src={item.author.avatar_url} />
+											<Link to={`/user/${item.author.loginname}`}><Avatar src={item.author.avatar_url} /></Link>
 											<div className='comments-right'>
 												<div className='comments-header'>
 													<span>{item.author.loginname}·{moment(item.create_at).fromNow()}</span>
 													<span>
-														<Icon type="like" onClick={this.handleLike.bind(this, item.id)}/>{item.ups.length}&nbsp;&nbsp;
+														{ !this.props.user.isLogin ?
+															<Icon type="like-o" onClick={this.handleLike.bind(this, item.id)}/> : item.ups.indexOf(this.props.user.user.id)>0 ?
+															<Icon type="like" onClick={this.handleLike.bind(this, item.id)}/> :
+															<Icon type="like-o" onClick={this.handleLike.bind(this, item.id)} />
+														}{item.ups.length}&nbsp;&nbsp;
 														<Icon type="message" onClick={this.showReply.bind(this, item)}/>
 													</span>
 												</div>
@@ -117,5 +141,6 @@ class Topic extends React.Component{
 		)
 	}
 }
+let getUser = ({user}) => ({user})
 
-export default Topic
+export default connect(getUser)(Topic)

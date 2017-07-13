@@ -6,8 +6,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   // entry: "./src/index.js",
   entry: {
-    app: path.resolve(__dirname, 'src/index.js'),
-    vendor: ['jquery']
+    vendor: ['jquery'],
+    app: path.resolve(__dirname, 'src/index.js')
   },
   output: {
     path: path.resolve(__dirname, "dist"),

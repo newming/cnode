@@ -16,7 +16,7 @@
 	display: flex;
 	padding: 5px 0;
 }
-.topic>img{
+.topic img{
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -64,6 +64,10 @@
 }
 .comments{
 	display: flex;
+	overflow-x: auto;
+}
+.comments img{
+	width: 100%;
 }
 .comments>span{
 	flex-shrink: 0;
