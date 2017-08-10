@@ -13,7 +13,7 @@ class Header extends React.Component{
 		this.state={
 			visible: false,
 			confirmLoading: false,
-			input: '3f77acb1-d753-4393-b784-44913190e6a8',
+			input: '',
 			messageCount: 0
 		}
 	}
