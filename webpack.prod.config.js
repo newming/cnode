@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   // entry: "./src/index.js",
   entry: {
-    vendor: ['jquery'],
+    // vendor: ['jquery'],
     app: path.resolve(__dirname, 'src/index.js')
   },
   output: {
@@ -26,14 +26,14 @@ module.exports = {
           use: ["css-loader","postcss-loader"]
         })
       },
-      { test: /\.(jpe?g|png)$/, use: 'file-loader?name=images/[name].[hash:8].[ext]' },
-      {
-        test: require.resolve('jquery'),
-        use: [{
-          loader: 'expose-loader',
-          options: '$'
-        }]
-      }
+      { test: /\.(jpe?g|png)$/, use: 'file-loader?name=images/[name].[hash:8].[ext]' }
+      // {
+      //   test: require.resolve('jquery'),
+      //   use: [{
+      //     loader: 'expose-loader',
+      //     options: '$'
+      //   }]
+      // }
     ]
   },
   plugins: [
@@ -50,7 +50,7 @@ module.exports = {
       filename: 'style/build.min.css'
     }),
     new HtmlWebpackPlugin({
-      title: 'hello world',
+      title: 'cnode 中文社区 newming 版',
       // filename: 'admin.html',
       template: 'templete/index.html'
     })

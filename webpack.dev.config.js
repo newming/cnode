@@ -12,7 +12,7 @@ module.exports = {
   devtool: "source-map",
   devServer: {
     compress: true,
-    port: 3000,
+    port: 3001,
     hot: true,
     historyApiFallback: true
     // contentBase: path.join(__dirname, "dist")
@@ -24,14 +24,14 @@ module.exports = {
         test: /\.css$/,
         use: ["style-loader","css-loader","postcss-loader"]
       },
-      { test: /\.(jpe?g|png)$/, use: 'file-loader?name=images/[name].[hash:8].[ext]' },
-      {
-        test: require.resolve('jquery'),
-        use: [{
-          loader: 'expose-loader',
-          options: '$'
-        }]
-      }
+      { test: /\.(jpe?g|png)$/, use: 'file-loader?name=images/[name].[hash:8].[ext]' }
+      // {
+      //   test: require.resolve('jquery'),
+      //   use: [{
+      //     loader: 'expose-loader',
+      //     options: '$'
+      //   }]
+      // }
     ]
   },
   plugins: [

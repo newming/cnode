@@ -60,14 +60,17 @@
 	line-height: 1.7;
 }
 .topic-wrap img{
-	width: 100%;
+	max-width: 100%;
+}
+.topic-wrap pre {
+  overflow-x: auto;
 }
 .comments{
 	display: flex;
 	overflow-x: auto;
 }
 .comments img{
-	width: 100%;
+	max-width: 100%;
 }
 .comments>span{
 	flex-shrink: 0;
